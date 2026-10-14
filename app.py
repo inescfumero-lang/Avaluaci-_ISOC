@@ -2,11 +2,11 @@ import pandas as pd
 import streamlit as st
 
 st.set_page_config(
-    page_title="Gestor d'Avaluació Docent", page_icon="👩‍🏫", layout="wide"
+    page_title="Avaluació per Rúbrica", page_icon="📊", layout="wide"
 )
 
-st.title("🎓 Panell de Control - Docent")
-st.markdown("Eina per avaluar i generar el fitxer de resultats de l'alumnat.")
+st.title("🎓 Aplicació d'Avaluació per Rúbrica")
+st.markdown("Eina integrada amb PIN numèric de 4 xifres per a l'alumnat.")
 
 # Rúbrica oficial
 RUBRICA = [
@@ -159,7 +159,7 @@ RUBRICA = [
     },
 ]
 
-# Alumnes, grups i PINs de 4 xifres
+# Alumnes, grups i PINs numèrics de 4 xifres fàcils de configurar
 raw_alumnos = [
     ("Kelly", "A", "1001"),
     ("Valeria", "A", "1002"),
@@ -192,14 +192,23 @@ raw_alumnos = [
 df_alumnos = pd.DataFrame(raw_alumnos, columns=["Alumno", "Grupo", "PIN"])
 grupos = df_alumnos["Grupo"].unique()
 
-tab1, tab2, tab3 = st.tabs(
-    ["1️⃣ Avaluació Grupal", "2️⃣ Avaluació Individual", "3️⃣ Generar Fitxer Web"]
+# Pestanyes de l'aplicació
+tab1, tab2, tab3, tab4, tab5 = st.tabs(
+    [
+        "1️⃣ Grupal",
+        "2️⃣ Individual",
+        "3️⃣ Informes Grups",
+        "4️⃣ Docent Global",
+        "5️⃣ Portal Alumnes (PIN)",
+    ]
 )
 
+# --- 1. AVALUACIÓ GRUPAL ---
 with tab1:
-  st.header("Avaluació Grupal")
+  st.header("Avaluació de la Part Grupal")
   criterios_grupales = [c for c in RUBRICA if c["tipus"] == "grupal"]
   notas_grupales = {}
+
   for grupo in grupos:
     st.subheader(f"Grup {grupo}")
     notas_grupales[grupo] = {}
@@ -213,18 +222,21 @@ with tab1:
           key=f"g_{grupo}_{c['criteri']}",
       )
 
+# --- 2. AVALUACIÓ INDIVIDUAL ---
 with tab2:
-  st.header("Avaluació Individual")
-  g_sel = st.selectbox("Tria grup:", options=grupos)
+  st.header("Avaluació Individual (Filtre per grup)")
+  g_sel = st.selectbox("Selecciona grup a avaluar:", options=grupos)
   criterios_individuales = [c for c in RUBRICA if c["tipus"] == "individual"]
+
   if "notas_individuales" not in st.session_state:
     st.session_state.notas_individuales = {}
 
   for idx, row in df_alumnos[df_alumnos["Grupo"] == g_sel].iterrows():
     al = row["Alumno"]
-    st.markdown(f"**{al}**")
+    st.markdown(f"### {al}")
     if al not in st.session_state.notas_individuales:
       st.session_state.notas_individuales[al] = {}
+
     for c in criterios_individuales:
       st.session_state.notas_individuales[al][c["criteri"]] = st.slider(
           f"{al} - {c['criteri']}",
@@ -234,18 +246,49 @@ with tab2:
           0.5,
           key=f"ind_{al}_{c['criteri']}",
       )
+
     st.text_area(f"Feedback per a {al}", key=f"feed_{al}")
     st.markdown("---")
 
-with tab3:
-  st.header("Generar dades per al Portal d'Alumnes")
-  st.markdown(
-      "Després de posar les notes, clica el botó. Descarrega el fitxer"
-      " `resultats.csv` i puja'l al teu repositori de GitHub (al costat de"
-      " `app.py` i `portal.py`)."
-  )
+  notas_individuales = st.session_state.notas_individuales
 
-  if st.button("Generar dades"):
+# --- 3. INFORMES PER GRUPS ---
+with tab3:
+  st.header("Informes per a Compartir amb els Grups")
+  g_inf = st.selectbox("Tria grup:", options=grupos, key="inf_g")
+
+  if st.button("Generar informe del grup"):
+    st.markdown(f"### Resultats del Grup {g_inf}")
+    criterios_grupales = [c for c in RUBRICA if c["tipus"] == "grupal"]
+    pesos_g = sum([c["pes"] for c in criterios_grupales])
+    suma_g = sum([
+        notas_grupales.get(g_inf, {}).get(c["criteri"], 0)
+        * (c["pes"] / pesos_g)
+        for c in criterios_grupales
+    ])
+    st.info(f"Mitjana Grupal Ponderada: **{round(suma_g, 2)} / 10**")
+
+    st.markdown("---")
+    pesos_i = sum([c["pes"] for c in RUBRICA if c["tipus"] == "individual"])
+    stored_i = st.session_state.get("notas_individuales", {})
+
+    for idx, row in df_alumnos[df_alumnos["Grupo"] == g_inf].iterrows():
+      al = row["Alumno"]
+      suma_i = sum([
+          stored_i.get(al, {}).get(c["criteri"], 0) * (c["pes"] / pesos_i)
+          for c in RUBRICA
+          if c["tipus"] == "individual"
+      ])
+      n_fin = (suma_g * pesos_g) + (suma_i * pesos_i)
+      st.markdown(f"- **{al}**: Nota Final = `🎯 {round(n_fin, 2)}`")
+      st.write(
+          f"  *Feedback:* {st.session_state.get(f'feed_{al}', 'Sense comentaris.')}"
+      )
+
+# --- 4. INFORME GENERAL DOCENT ---
+with tab4:
+  st.header("Resum General (Només Docent)")
+  if st.button("Calcular resum classe"):
     res = []
     pesos_g = sum([c["pes"] for c in RUBRICA if c["tipus"] == "grupal"])
     pesos_i = sum([c["pes"] for c in RUBRICA if c["tipus"] == "individual"])
@@ -254,8 +297,6 @@ with tab3:
     for idx, row in df_alumnos.iterrows():
       al = row["Alumno"]
       gr = row["Grupo"]
-      pin = row["PIN"]
-
       ng = sum([
           notas_grupales.get(gr, {}).get(c["criteri"], 0)
           * (c["pes"] / pesos_g)
@@ -268,21 +309,71 @@ with tab3:
           if c["tipus"] == "individual"
       ])
       nfin = (ng * pesos_g) + (ni * pesos_i)
-      feed = st.session_state.get(f"feed_{al}", "Sense comentaris.")
+      res.append(
+          {"Alumno": al, "Grupo": gr, "Nota Final": round(nfin, 2)}
+      )
 
-      res.append({
-          "Alumno": al,
-          "Grupo": gr,
-          "PIN": pin,
-          "NotaFinal": round(nfin, 2),
-          "Feedback": feed,
-      })
-
-    df_export = pd.DataFrame(res)
-    csv_data = df_export.to_csv(index=False).encode("utf-8")
+    df_res = pd.DataFrame(res)
+    st.dataframe(df_res, use_container_width=True)
     st.download_button(
-        "📥 Descarregar `resultats.csv`",
-        data=csv_data,
-        file_name="resultats.csv",
-        mime="text/csv",
+        "Descarregar CSV",
+        df_res.to_csv(index=False).encode("utf-8"),
+        "notes.csv",
+        "text/csv",
     )
+
+# --- 5. PORTAL ALUMNES (AMB PIN DE 4 XIFRES) ---
+with tab5:
+  st.header("🔒 Portal de Consulta Personal (Alumnat)")
+  st.markdown(
+      "Introdueix el teu nom i el teu **PIN de 4 xifres** per veure la teva"
+      " nota de forma privada."
+  )
+
+  col1, col2 = st.columns(2)
+  with col1:
+    al_ing = st.selectbox(
+        "El teu nom:",
+        options=df_alumnos["Alumno"].sort_values().unique(),
+        key="p_al",
+    )
+  with col2:
+    pin_ing = st.text_input(
+        "PIN de 4 xifres:", type="password", max_chars=4, key="p_pin"
+    )
+
+  if st.button("Consultar nota"):
+    pin_real = df_alumnos[df_alumnos["Alumno"] == al_ing]["PIN"].values[0]
+
+    if pin_ing == pin_real:
+      st.success("✅ Accés correcte!")
+      gr_al = df_alumnos[df_alumnos["Alumno"] == al_ing]["Grupo"].values[0]
+
+      # Calcular nota
+      pesos_g = sum([c["pes"] for c in RUBRICA if c["tipus"] == "grupal"])
+      pesos_i = sum([c["pes"] for c in RUBRICA if c["tipus"] == "individual"])
+      stored_i = st.session_state.get("notas_individuales", {})
+
+      ng = sum([
+          notas_grupales.get(gr_al, {}).get(c["criteri"], 0)
+          * (c["pes"] / pesos_g)
+          for c in RUBRICA
+          if c["tipus"] == "grupal"
+      ])
+      ni = sum([
+          stored_i.get(al_ing, {}).get(c["criteri"], 0) * (c["pes"] / pesos_i)
+          for c in RUBRICA
+          if c["tipus"] == "individual"
+      ])
+      nfin = (ng * pesos_g) + (ni * pesos_i)
+
+      st.markdown(f"### Hola, **{al_ing}** (Grup {gr_al})")
+      st.metric(label="🎯 Qualificació Final", value=f"{round(nfin, 2)} / 10")
+
+      feed = st.session_state.get(
+          f"feed_{al_ing}", "Sense comentaris addicionals."
+      )
+      st.markdown("#### 💬 Comentari del docent:")
+      st.info(feed)
+    else:
+      st.error("❌ PIN incorrecte. Revisa el número de 4 xifres.")
