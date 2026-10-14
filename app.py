@@ -2,16 +2,13 @@ import pandas as pd
 import streamlit as st
 
 st.set_page_config(
-    page_title="Avaluació per Rúbrica", page_icon="📊", layout="wide"
+    page_title="Gestor d'Avaluació Docent", page_icon="👩‍🏫", layout="wide"
 )
 
-st.title("🎓 Aplicació d'Avaluació per Rúbrica")
-st.markdown(
-    "Eina per gestionar la rúbrica grupal i individual amb els alumnes i grups"
-    " preconfigurats."
-)
+st.title("🎓 Panell de Control - Docent")
+st.markdown("Eina per avaluar i generar el fitxer de resultats de l'alumnat.")
 
-# Definició de la rúbrica oficial
+# Rúbrica oficial
 RUBRICA = [
     {
         "criteri": "Presentació visual",
@@ -162,247 +159,130 @@ RUBRICA = [
     },
 ]
 
-# --- LLISTAT PRECONFIGURAT D'ALUMNES I GRUPS ---
+# Alumnes, grups i PINs de 4 xifres
 raw_alumnos = [
-    ("Kelly", "A"),
-    ("Valeria", "A"),
-    ("Alejandro", "A"),
-    ("Nora", "A"),
-    ("Lucia", "B"),
-    ("Carla", "B"),
-    ("Alexia", "B"),
-    ("Emelie", "B"),
-    ("Víctor", "B"),
-    ("Isabella", "B"),
-    ("Helena", "C"),
-    ("Alba", "C"),
-    ("Vega", "C"),
-    ("Dylan", "C"),
-    ("Carla R", "C"),
-    ("Aleix Q", "D"),
-    ("Carla P", "D"),
-    ("Lucia P", "D"),
-    ("Mar", "D"),
-    ("Maials", "D"),
-    ("Valery", "E"),
-    ("Ashley", "E"),
-    ("Angelo", "E"),
-    ("Aleix M", "E"),
-    ("Sara", "E"),
-    ("Carla Z", "E"),
+    ("Kelly", "A", "1001"),
+    ("Valeria", "A", "1002"),
+    ("Alejandro", "A", "1003"),
+    ("Nora", "A", "1004"),
+    ("Lucia", "B", "2001"),
+    ("Carla", "B", "2002"),
+    ("Alexia", "B", "2003"),
+    ("Emelie", "B", "2004"),
+    ("Víctor", "B", "2005"),
+    ("Isabella", "B", "2006"),
+    ("Helena", "C", "3001"),
+    ("Alba", "C", "3002"),
+    ("Vega", "C", "3003"),
+    ("Dylan", "C", "3004"),
+    ("Carla R", "C", "3005"),
+    ("Aleix Q", "D", "4001"),
+    ("Carla P", "D", "4002"),
+    ("Lucia P", "D", "4003"),
+    ("Mar", "D", "4004"),
+    ("Maials", "D", "4005"),
+    ("Valery", "E", "5001"),
+    ("Ashley", "E", "5002"),
+    ("Angelo", "E", "5003"),
+    ("Aleix M", "E", "5004"),
+    ("Sara", "E", "5005"),
+    ("Carla Z", "E", "5006"),
 ]
 
-df_alumnos = pd.DataFrame(raw_alumnos, columns=["Alumno", "Grupo"])
+df_alumnos = pd.DataFrame(raw_alumnos, columns=["Alumno", "Grupo", "PIN"])
 grupos = df_alumnos["Grupo"].unique()
 
-# Barra lateral informativa
-st.sidebar.header("📊 Estat de l'App")
-st.sidebar.success(
-    f"Carregats {len(df_alumnos)} alumnes repartits en {len(grupos)} grups (A-E)."
+tab1, tab2, tab3 = st.tabs(
+    ["1️⃣ Avaluació Grupal", "2️⃣ Avaluació Individual", "3️⃣ Generar Fitxer Web"]
 )
 
-# Pestanyes de navegació
-tab1, tab2, tab3, tab4 = st.tabs(
-    [
-        "1️⃣ Avaluació Grupal",
-        "2️⃣ Avaluació Individual",
-        "3️⃣ Informes per Grups",
-        "4️⃣ Informe General Docent",
-    ]
-)
-
-# --- TAB 1: AVALUACIÓ GRUPAL ---
 with tab1:
-  st.header("👥 Avaluació de la Part Grupal")
-  st.markdown("Criteris comuns per a cada equip (Grups A al E).")
-
+  st.header("Avaluació Grupal")
   criterios_grupales = [c for c in RUBRICA if c["tipus"] == "grupal"]
   notas_grupales = {}
-
   for grupo in grupos:
-    st.subheader(f"Grup: {grupo}")
+    st.subheader(f"Grup {grupo}")
     notas_grupales[grupo] = {}
     for c in criterios_grupales:
-      with st.expander(f"Criteri: {c['criteri']} (Pes: {int(c['pes']*100)}%)"):
-        st.markdown(
-            "* **Nivells:**\n"
-            + "\n".join([f"  * **{k}:** {v}" for k, v in c["nivells"].items()])
-        )
-        nota = st.slider(
-            f"Puntuació (0-10) - Grup {grupo} - {c['criteri']}",
-            0.0,
-            10.0,
-            7.0,
-            0.5,
-            key=f"g_{grupo}_{c['criteri']}",
-        )
-        notas_grupales[grupo][c["criteri"]] = nota
-    st.markdown("---")
+      notas_grupales[grupo][c["criteri"]] = st.slider(
+          f"Grup {grupo} - {c['criteri']}",
+          0.0,
+          10.0,
+          7.0,
+          0.5,
+          key=f"g_{grupo}_{c['criteri']}",
+      )
 
-# --- TAB 2: AVALUACIÓ INDIVIDUAL (AMB FILTRE DE GRUP) ---
 with tab2:
-  st.header("👤 Avaluació de la Part Individual")
-  st.markdown(
-      "Selecciona un grup per avaluar només els seus integrants i evitar"
-      " saturar la pantalla."
-  )
-
-  grupo_seleccionado = st.selectbox(
-      "Selecciona el grup a avaluar:", options=grupos
-  )
-
+  st.header("Avaluació Individual")
+  g_sel = st.selectbox("Tria grup:", options=grupos)
   criterios_individuales = [c for c in RUBRICA if c["tipus"] == "individual"]
-
   if "notas_individuales" not in st.session_state:
     st.session_state.notas_individuales = {}
 
-  st.markdown(f"### Alumnes del Grup {grupo_seleccionado}")
-  alumnos_grupo = df_alumnos[df_alumnos["Grupo"] == grupo_seleccionado]
-
-  for idx, row in alumnos_grupo.iterrows():
-    alumno = row["Alumno"]
-    st.markdown(f"#### 🧑‍🎓 {alumno}")
-    if alumno not in st.session_state.notas_individuales:
-      st.session_state.notas_individuales[alumno] = {}
-
+  for idx, row in df_alumnos[df_alumnos["Grupo"] == g_sel].iterrows():
+    al = row["Alumno"]
+    st.markdown(f"**{al}**")
+    if al not in st.session_state.notas_individuales:
+      st.session_state.notas_individuales[al] = {}
     for c in criterios_individuales:
-      with st.expander(f"Criteri: {c['criteri']} (Pes: {int(c['pes']*100)}%)"):
-        st.markdown(
-            "* **Nivells:**\n"
-            + "\n".join([f"  * **{k}:** {v}" for k, v in c["nivells"].items()])
-        )
-        nota_actual = st.session_state.notas_individuales[alumno].get(
-            c["criteri"], 7.0
-        )
-        nota = st.slider(
-            f"Nota {alumno} - {c['criteri']}",
-            0.0,
-            10.0,
-            nota_actual,
-            0.5,
-            key=f"ind_{alumno}_{c['criteri']}",
-        )
-        st.session_state.notas_individuales[alumno][c["criteri"]] = nota
-
-    feedback_actual = st.session_state.get(f"feed_{alumno}", "")
-    feedback = st.text_area(
-        f"Comentaris / Feedback per a {alumno}",
-        feedback_actual,
-        key=f"feed_{alumno}",
-    )
+      st.session_state.notas_individuales[al][c["criteri"]] = st.slider(
+          f"{al} - {c['criteri']}",
+          0.0,
+          10.0,
+          7.0,
+          0.5,
+          key=f"ind_{al}_{c['criteri']}",
+      )
+    st.text_area(f"Feedback per a {al}", key=f"feed_{al}")
     st.markdown("---")
 
-  notas_individuales = st.session_state.notas_individuales
-
-# --- TAB 3: INFORMES PER GRUPS ---
 with tab3:
-  st.header("📄 Informes per a Compartir amb els Grups")
+  st.header("Generar dades per al Portal d'Alumnes")
   st.markdown(
-      "Selecciona un grup per veure el resum de qualificacions de tot l'equip i"
-      " de cada participant."
+      "Després de posar les notes, clica el botó. Descarrega el fitxer"
+      " `resultats.csv` i puja'l al teu repositori de GitHub (al costat de"
+      " `app.py` i `portal.py`)."
   )
 
-  grupo_informe = st.selectbox(
-      "Tria el grup per generar l'informe:", options=grupos, key="inf_grupo"
-  )
-
-  if st.button("Generar Informe del Grup"):
-    st.markdown(f"## 📋 Informe de Qualificacions: **Grup {grupo_informe}**")
-
-    st.markdown("### 🏛️ Avaluació Grupal de l'Equip")
-    criterios_grupales = [c for c in RUBRICA if c["tipus"] == "grupal"]
-    suma_g_p = 0
-    pesos_g_total = sum([c["pes"] for c in criterios_grupales])
-
-    for c in criterios_grupales:
-      val = notas_grupales.get(grupo_informe, {}).get(c["criteri"], 0)
-      st.markdown(
-          f"- **{c['criteri']}** (Pes {int(c['pes']*100)}%): **{val} / 10**"
-      )
-      suma_g_p += val * (c["pes"] / pesos_g_total)
-    st.markdown(f"* **Nota Mitjana Grupal Ponderada:** `✨ {round(suma_g_p, 2)}`")
-
-    st.markdown("---")
-    st.markdown("### 🧑‍🎓 Avaluació Individual dels Integrants")
-
-    alumnos_del_grupo = df_alumnos[df_alumnos["Grupo"] == grupo_informe]
-    criterios_individuales = [c for c in RUBRICA if c["tipus"] == "individual"]
-    pesos_i_total = sum([c["pes"] for c in criterios_individuales])
-
-    for idx, row in alumnos_del_grupo.iterrows():
-      alumno = row["Alumno"]
-      st.markdown(f"#### Alumne/a: {alumno}")
-
-      suma_i_p = 0
-      alum_notas = (
-          st.session_state.notas_individuales.get(alumno, {})
-          if "notas_individuales" in st.session_state
-          else {}
-      )
-      for c in criterios_individuales:
-        val_i = alum_notas.get(c["criteri"], 0)
-        st.markdown(
-            f"  - {c['criteri']} (Pes {int(c['pes']*100)}%): {val_i} / 10"
-        )
-        suma_i_p += val_i * (c["pes"] / pesos_i_total)
-
-      nota_final = (suma_g_p * pesos_g_total) + (suma_i_p * pesos_i_total)
-      st.markdown(f"  * **Nota Final de {alumno}:** `🎯 {round(nota_final, 2)}`")
-
-      feed_text = st.session_state.get(
-          f"feed_{alumno}", "Sense comentaris addicionals."
-      )
-      st.info(f"💬 **Feedback:** {feed_text}")
-      st.markdown("")
-
-# --- TAB 4: INFORME GENERAL DOCENT ---
-with tab4:
-  st.header("📊 Informe General i Exportació (Només per al Docent)")
-
-  if st.button("Calcular Resum General de Classe"):
-    resultados = []
-    pesos_g_total = sum([c["pes"] for c in RUBRICA if c["tipus"] == "grupal"])
-    pesos_i_total = sum([c["pes"] for c in RUBRICA if c["tipus"] == "individual"])
-    stored_indiv = (
-        st.session_state.notas_individuales
-        if "notas_individuales" in st.session_state
-        else {}
-    )
+  if st.button("Generar dades"):
+    res = []
+    pesos_g = sum([c["pes"] for c in RUBRICA if c["tipus"] == "grupal"])
+    pesos_i = sum([c["pes"] for c in RUBRICA if c["tipus"] == "individual"])
+    stored_i = st.session_state.get("notas_individuales", {})
 
     for idx, row in df_alumnos.iterrows():
-      alumno = row["Alumno"]
-      grupo = row["Grupo"]
+      al = row["Alumno"]
+      gr = row["Grupo"]
+      pin = row["PIN"]
 
-      nota_g_p = 0
-      for c in [x for x in RUBRICA if x["tipus"] == "grupal"]:
-        val = notas_grupales.get(grupo, {}).get(c["criteri"], 0)
-        nota_g_p += val * (c["pes"] / pesos_g_total)
+      ng = sum([
+          notas_grupales.get(gr, {}).get(c["criteri"], 0)
+          * (c["pes"] / pesos_g)
+          for c in RUBRICA
+          if c["tipus"] == "grupal"
+      ])
+      ni = sum([
+          stored_i.get(al, {}).get(c["criteri"], 0) * (c["pes"] / pesos_i)
+          for c in RUBRICA
+          if c["tipus"] == "individual"
+      ])
+      nfin = (ng * pesos_g) + (ni * pesos_i)
+      feed = st.session_state.get(f"feed_{al}", "Sense comentaris.")
 
-      nota_i_p = 0
-      alum_notas = stored_indiv.get(alumno, {})
-      for c in [x for x in RUBRICA if x["tipus"] == "individual"]:
-        val = alum_notas.get(c["criteri"], 0)
-        nota_i_p += val * (c["pes"] / pesos_i_total)
-
-      nota_final = (nota_g_p * pesos_g_total) + (nota_i_p * pesos_i_total)
-
-      resultados.append({
-          "Alumno": alumno,
-          "Grupo": grupo,
-          "Nota Grupal": round(nota_g_p, 2),
-          "Nota Individual": round(nota_i_p, 2),
-          "Nota Final": round(nota_final, 2),
+      res.append({
+          "Alumno": al,
+          "Grupo": gr,
+          "PIN": pin,
+          "NotaFinal": round(nfin, 2),
+          "Feedback": feed,
       })
 
-    df_final = pd.DataFrame(resultados)
-    st.dataframe(df_final, use_container_width=True)
-
-    st.metric("Mitjana Global de la Classe", round(df_final["Nota Final"].mean(), 2))
-
-    csv = df_final.to_csv(index=False).encode("utf-8")
+    df_export = pd.DataFrame(res)
+    csv_data = df_export.to_csv(index=False).encode("utf-8")
     st.download_button(
-        label="📥 Descarregar Tots els Resultats en CSV",
-        data=csv,
-        file_name="informe_global_rubrica.csv",
+        "📥 Descarregar `resultats.csv`",
+        data=csv_data,
+        file_name="resultats.csv",
         mime="text/csv",
     )
