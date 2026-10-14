@@ -264,48 +264,48 @@ if is_admin:
       ]
   )
 
-  # 1. Grupal
+  # 1. Grupal (AMB SELECTOR DE GRUP)
   with tab1:
     st.header("👥 Avaluació de la Part Grupal")
+    grupo_sel_grup = st.selectbox(
+        "Selecciona el grup a avaluar (Part Grupal):",
+        options=grupos,
+        key="sel_grup_aval",
+    )
+
     criterios_grupales = [c for c in RUBRICA if c["tipus"] == "grupal"]
     if "notas_grupales" not in st.session_state:
       st.session_state.notas_grupales = {}
 
-    for grupo in grupos:
-      st.subheader(f"🔹 Grup {grupo}")
-      if grupo not in st.session_state.notas_grupales:
-        st.session_state.notas_grupales[grupo] = {}
+    if grupo_sel_grup not in st.session_state.notas_grupales:
+      st.session_state.notas_grupales[grupo_sel_grup] = {}
 
-      for c in criterios_grupales:
-        st.markdown(
-            f"#### 📌 {c['criteri']} *(Pes:"
-            f" {int(c['pes']*100)}%)*"
-        )
+    st.markdown(f"### 🏛️ Equip: Grup {grupo_sel_grup}")
+    for c in criterios_grupales:
+      st.markdown(f"#### 📌 {c['criteri']} *(Pes: {int(c['pes']*100)}%)*")
 
-        # MOSTRAR TOTS ELS NIVELLS SEMPRE VISIBLES
-        text_nivells = "\n".join(
-            [f"* **{k}:** {v}" for k, v in c["nivells"].items()]
-        )
-        st.info(f"**Descripció dels nivells:**\n\n{text_nivells}")
+      text_nivells = "\n".join(
+          [f"* **{k}:** {v}" for k, v in c["nivells"].items()]
+      )
+      st.info(f"**Descripció dels nivells:**\n\n{text_nivells}")
 
-        val_actual = st.session_state.notas_grupales[grupo].get(
-            c["criteri"], 7.0
-        )
-        nota = st.slider(
-            f"Puntuació per a Grup {grupo} - {c['criteri']}",
-            0.0,
-            10.0,
-            val_actual,
-            0.5,
-            key=f"g_{grupo}_{c['criteri']}",
-        )
-        st.session_state.notas_grupales[grupo][c["criteri"]] = nota
+      val_actual = st.session_state.notas_grupales[grupo_sel_grup].get(
+          c["criteri"], 7.0
+      )
+      nota = st.slider(
+          f"Puntuació per a Grup {grupo_sel_grup} - {c['criteri']}",
+          0.0,
+          10.0,
+          val_actual,
+          0.5,
+          key=f"g_{grupo_sel_grup}_{c['criteri']}",
+      )
+      st.session_state.notas_grupales[grupo_sel_grup][c["criteri"]] = nota
 
-        # Text actual seleccionat
-        st.success(
-            f"Nivell actual seleccionat: {obtenir_nivell_text(nota, c['nivells'])}"
-        )
-        st.markdown("---")
+      st.success(
+          f"Nivell actual seleccionat: {obtenir_nivell_text(nota, c['nivells'])}"
+      )
+      st.markdown("---")
 
   # 2. Individual
   with tab2:
@@ -323,10 +323,7 @@ if is_admin:
         st.session_state.notas_individuales[al] = {}
 
       for c in criterios_individuales:
-        st.markdown(
-            f"#### 📌 {c['criteri']} *(Pes:"
-            f" {int(c['pes']*100)}%)*"
-        )
+        st.markdown(f"#### 📌 {c['criteri']} *(Pes: {int(c['pes']*100)}%)*")
 
         text_nivells = "\n".join(
             [f"* **{k}:** {v}" for k, v in c["nivells"].items()]
