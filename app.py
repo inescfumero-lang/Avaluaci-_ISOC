@@ -49,23 +49,26 @@ RUBRICA = [
         "nivells": {
             "1-2": (
                 "La presentació és desorganitzada, poc llegible o incompleta."
-                " No facilita la comprensió."
+                " No facilita la comprensió del contingut."
             ),
             "3-4": (
-                "Organització poc clara. Massa text, poca coherència visual o"
-                " recursos inadequats."
+                "La presentació té una organització poc clara. Hi ha massa"
+                " text, poca coherència visual o recursos poc adequats."
             ),
             "5-6": (
-                "Entenedora i amb estructura bàsica. Combina text i visuals,"
-                " pot millorar."
+                "La presentació és entenedora i té una estructura bàsica."
+                " Combina text i elements visuals, tot i que podria ser més"
+                " clara o atractiva."
             ),
             "7-8": (
-                "Ben estructurada, visualment coherent i facilita la"
-                " comprensió."
+                "La presentació està ben estructurada, és visualment coherent"
+                " i facilita la comprensió. Els textos i les imatges són"
+                " adequats."
             ),
             "9-10": (
-                "Molt clara, atractiva i coherent. Recursos visuals ben"
-                " seleccionats."
+                "La presentació és molt clara, atractiva i coherent. Els"
+                " recursos visuals estan ben seleccionats i reforcen"
+                " significativament l’explicació."
             ),
         },
     },
@@ -87,24 +90,28 @@ RUBRICA = [
         "pes": 0.25,
         "nivells": {
             "1-2": (
-                "Contingut molt superficial, incomplet o amb errors"
-                " conceptuals."
+                "El contingut és molt superficial, incomplet o conté errors"
+                " conceptuals importants. No desenvolupa les idees principals."
             ),
             "3-4": (
-                "Informació bàsica poc desenvolupada. Falten exemples o"
-                " aspectes rellevants."
+                "Presenta informació bàsica, però poc desenvolupada. Hi falten"
+                " exemples, explicacions o aspectes rellevants del tema."
             ),
             "5-6": (
-                "Desenvolupa característiques principals i algun exemple"
-                " (anàlisi limitada)."
+                "Desenvolupa les característiques principals dels estils"
+                " educatius i incorpora algun exemple, tot i que l’anàlisi és"
+                " limitada."
             ),
             "7-8": (
-                "Aprofundeix, compara estils i explica conseqüències amb"
-                " exemples pertinents."
+                "Aprofundeix en els diferents estils, els compara i n’explica"
+                " les possibles conseqüències en el desenvolupament dels"
+                " infants i adolescents. Incorpora exemples pertinents."
             ),
             "9-10": (
-                "Anàlisi crítica i ben fonamentada, valora implicacions i"
-                " relaciona amb situacions reals."
+                "Fa una anàlisi crítica i ben fonamentada, compara els estils"
+                " educatius, en valora les implicacions i els relaciona amb"
+                " situacions reals d’intervenció socioeducativa. Utilitza"
+                " exemples significatius."
             ),
         },
     },
@@ -114,24 +121,28 @@ RUBRICA = [
         "pes": 0.10,
         "nivells": {
             "1-2": (
-                "Participació molt desigual: una persona assumeix gairebé tot"
-                " i algú no participa."
+                "La participació és molt desigual: una persona assumeix gairebé"
+                " tota l’exposició i alguna altra no hi participa o hi participa"
+                " mínimament."
             ),
             "3-4": (
-                "Repartiment força desigual amb diferències importants en"
-                " temps i implicació."
+                "El repartiment és força desigual. Hi ha diferències"
+                " importants en el temps de participació i en la implicació"
+                " dels membres."
             ),
             "5-6": (
-                "Tots participen però el temps o contingut es reparteix de"
-                " manera irregular."
+                "Tots els membres participen, però el temps o el contingut es"
+                " reparteixen de manera una mica desigual."
             ),
             "7-8": (
-                "Participació equilibrada. Tots tenen temps raonable i"
-                " desenvolupen part significativa."
+                "La participació és equilibrada. Tots els membres tenen un"
+                " temps raonable i desenvolupen una part significativa del"
+                " contingut."
             ),
             "9-10": (
-                "Temps i contingut molt equilibrats. Transicions fluides i"
-                " coherents."
+                "El temps i el contingut es reparteixen de manera molt"
+                " equilibrada. Tots els membres contribueixen activament i les"
+                " transicions entre les parts són fluides i coherents."
             ),
         },
     },
@@ -141,24 +152,28 @@ RUBRICA = [
         "pes": 0.20,
         "nivells": {
             "1-2": (
-                "Moltes dificultats per expressar-se en català. Discurs poc"
-                " comprensible o molt dependent de lectura."
+                "Té moltes dificultats per expressar-se en català. El discurs"
+                " és poc comprensible, desorganitzat o excessivament dependent"
+                " de la lectura."
             ),
             "3-4": (
-                "Poca fluïdesa i errors freqüents. Costa mantenir un discurs"
-                " clar."
+                "S’expressa amb poca fluïdesa i comet errors freqüents. Li"
+                " costa mantenir un discurs clar i utilitzar vocabulari"
+                " adequat."
             ),
             "5-6": (
-                "De manera comprensible, amb algunes vacil·lacions. Vocabulari"
-                " generalment adequat."
+                "S’expressa en català de manera comprensible, amb algunes"
+                " vacil·lacions o errors. Utilitza un vocabulari generalment"
+                " adequat."
             ),
             "7-8": (
-                "Amb fluïdesa, claredat i correcció general. Utilitza"
-                " vocabulari específic."
+                "S’expressa amb fluïdesa, claredat i correcció general."
+                " Utilitza vocabulari específic i manté un ritme adequat."
             ),
             "9-10": (
-                "Molta fluïdesa, seguretat i precisió. Vocabulari tècnic i"
-                " comunicació eficaç."
+                "S’expressa amb molta fluïdesa, seguretat i precisió."
+                " Utilitza correctament el vocabulari tècnic, adapta el discurs"
+                " al públic i comunica amb eficàcia."
             ),
         },
     },
@@ -168,34 +183,54 @@ RUBRICA = [
         "pes": 0.25,
         "nivells": {
             "1-2": (
-                "Desconeixement important. Llegeix gairebé tot i no explica el"
+                "Mostra un desconeixement important del tema. Llegeix gairebé"
+                " tota la informació i no aconsegueix explicar-ne el"
                 " significat."
             ),
             "3-4": (
-                "Coneix alguns conceptes però presenta confusions. Depèn molt"
-                " dels apunts."
+                "Coneix alguns conceptes, però presenta confusions o"
+                " dificultats per explicar-los amb les seves paraules. Depèn"
+                " molt dels apunts."
             ),
             "5-6": (
-                "Comprensió bàsica i característiques principals, necessita"
-                " consultar apunts."
+                "Demostra una comprensió bàsica dels estils educatius familiars"
+                " i n’explica les característiques principals, tot i que"
+                " necessita consultar sovint els apunts."
             ),
             "7-8": (
-                "Bon coneixement, explica amb les seves paraules i diferencia"
-                " correctament els estils."
+                "Demostra un bon coneixement del tema, explica els conceptes"
+                " amb les seves paraules i diferencia correctament els estils"
+                " educatius."
             ),
             "9-10": (
-                "Domini sòlid, precisió, relaciona conceptes i respon"
-                " adequadament."
+                "Demostra un domini sòlid del tema, explica els conceptes amb"
+                " precisió, els relaciona entre si i respon adequadament les"
+                " preguntes que li plantegen."
             ),
         },
     },
 ]
 
+
+def obtenir_nivell_text(score, nivells_dict):
+  if score <= 2:
+    k = "1-2"
+  elif score <= 4:
+    k = "3-4"
+  elif score <= 6:
+    k = "5-6"
+  elif score <= 8:
+    k = "7-8"
+  else:
+    k = "9-10"
+  return f"**[{k}]** {nivells_dict.get(k, '')}"
+
+
 # ---------------------------------------------------------
 # 2. CONTROL D'ACCÉS AL PANEL LATERAL (PROFESSORA)
 # ---------------------------------------------------------
 st.sidebar.header("🔐 Accés General")
-password_profesora = "profe1234"  # Pots canviar la teva contrasenya mestra aquí
+password_profesora = "profe1234"
 
 modo_profesor = st.sidebar.checkbox("🔓 Mode Professora (Desbloquejar panell)")
 
@@ -217,11 +252,7 @@ else:
 # ---------------------------------------------------------
 
 if is_admin:
-  # --- VISTA DE LA PROFESSORA (Tot visible i editable) ---
   st.title("👩‍🏫 Panell de Gestió i Avaluació (Docent)")
-  st.markdown(
-      "Tens accés total per avaluar grups, alumnes i veure informes generals."
-  )
 
   tab1, tab2, tab3, tab4, tab5 = st.tabs(
       [
@@ -235,31 +266,50 @@ if is_admin:
 
   # 1. Grupal
   with tab1:
-    st.header("Avaluació de la Part Grupal")
+    st.header("👥 Avaluació de la Part Grupal")
     criterios_grupales = [c for c in RUBRICA if c["tipus"] == "grupal"]
     if "notas_grupales" not in st.session_state:
       st.session_state.notas_grupales = {}
 
     for grupo in grupos:
-      st.subheader(f"Grup {grupo}")
+      st.subheader(f"🔹 Grup {grupo}")
       if grupo not in st.session_state.notas_grupales:
         st.session_state.notas_grupales[grupo] = {}
+
       for c in criterios_grupales:
+        st.markdown(
+            f"#### 📌 {c['criteri']} *(Pes:"
+            f" {int(c['pes']*100)}%)*"
+        )
+
+        # MOSTRAR TOTS ELS NIVELLS SEMPRE VISIBLES
+        text_nivells = "\n".join(
+            [f"* **{k}:** {v}" for k, v in c["nivells"].items()]
+        )
+        st.info(f"**Descripció dels nivells:**\n\n{text_nivells}")
+
         val_actual = st.session_state.notas_grupales[grupo].get(
             c["criteri"], 7.0
         )
-        st.session_state.notas_grupales[grupo][c["criteri"]] = st.slider(
-            f"Grup {grupo} - {c['criteri']}",
+        nota = st.slider(
+            f"Puntuació per a Grup {grupo} - {c['criteri']}",
             0.0,
             10.0,
             val_actual,
             0.5,
             key=f"g_{grupo}_{c['criteri']}",
         )
+        st.session_state.notas_grupales[grupo][c["criteri"]] = nota
+
+        # Text actual seleccionat
+        st.success(
+            f"Nivell actual seleccionat: {obtenir_nivell_text(nota, c['nivells'])}"
+        )
+        st.markdown("---")
 
   # 2. Individual
   with tab2:
-    st.header("Avaluació Individual")
+    st.header("👤 Avaluació Individual")
     g_sel = st.selectbox("Selecciona grup a avaluar:", options=grupos)
     criterios_individuales = [c for c in RUBRICA if c["tipus"] == "individual"]
 
@@ -268,30 +318,46 @@ if is_admin:
 
     for idx, row in df_alumnos[df_alumnos["Grupo"] == g_sel].iterrows():
       al = row["Alumno"]
-      st.markdown(f"### {al}")
+      st.markdown(f"### 🧑‍🎓 {al}")
       if al not in st.session_state.notas_individuales:
         st.session_state.notas_individuales[al] = {}
 
       for c in criterios_individuales:
+        st.markdown(
+            f"#### 📌 {c['criteri']} *(Pes:"
+            f" {int(c['pes']*100)}%)*"
+        )
+
+        text_nivells = "\n".join(
+            [f"* **{k}:** {v}" for k, v in c["nivells"].items()]
+        )
+        st.info(f"**Descripció dels nivells:**\n\n{text_nivells}")
+
         val_i_act = st.session_state.notas_individuales[al].get(
             c["criteri"], 7.0
         )
-        st.session_state.notas_individuales[al][c["criteri"]] = st.slider(
-            f"{al} - {c['criteri']}",
+        nota_i = st.slider(
+            f"Puntuació per a {al} - {c['criteri']}",
             0.0,
             10.0,
             val_i_act,
             0.5,
             key=f"ind_{al}_{c['criteri']}",
         )
+        st.session_state.notas_individuales[al][c["criteri"]] = nota_i
+
+        st.success(
+            f"Nivell actual seleccionat: {obtenir_nivell_text(nota_i, c['nivells'])}"
+        )
+        st.markdown("---")
 
       feed_act = st.session_state.get(f"feed_{al}", "")
-      st.text_area(f"Feedback per a {al}", feed_act, key=f"feed_{al}")
-      st.markdown("---")
+      st.text_area(f"Feedback qualitatiu per a {al}", feed_act, key=f"feed_{al}")
+      st.markdown("==========================================")
 
   # 3. Informes Grups
   with tab3:
-    st.header("Informes per a Grups")
+    st.header("📄 Informes per a Grups (amb text exacte)")
     g_inf = st.selectbox("Tria grup:", options=grupos, key="inf_g")
     notas_grupales = st.session_state.get("notas_grupales", {})
     stored_i = st.session_state.get("notas_individuales", {})
@@ -299,74 +365,51 @@ if is_admin:
     pesos_g = sum([c["pes"] for c in RUBRICA if c["tipus"] == "grupal"])
     pesos_i = sum([c["pes"] for c in RUBRICA if c["tipus"] == "individual"])
 
-    suma_g = sum([
-        notas_grupales.get(g_inf, {}).get(c["criteri"], 0)
-        * (c["pes"] / pesos_g)
-        for c in RUBRICA
-        if c["tipus"] == "grupal"
-    ])
-    st.info(f"Mitjana Grupal Ponderada: **{round(suma_g, 2)} / 10**")
+    st.markdown(f"### 🏛️ Avaluació Grupal - Grup {g_inf}")
+    criterios_grupales = [c for c in RUBRICA if c["tipus"] == "grupal"]
+    suma_g = 0
+    for c in criterios_grupales:
+      val = notas_grupales.get(g_inf, {}).get(c["criteri"], 7.0)
+      suma_g += val * (c["pes"] / pesos_g)
+      st.markdown(f"- **{c['criteri']}** (Puntuació: **{val} / 10**)")
+      st.caption(f"  📝 {obtenir_nivell_text(val, c['nivells'])}")
 
+    st.info(f"✨ **Mitjana Grupal Ponderada:** {round(suma_g, 2)} / 10")
+    st.markdown("---")
+
+    st.markdown("### 🧑‍🎓 Avaluació Individual de l'Equip")
     for idx, row in df_alumnos[df_alumnos["Grupo"] == g_inf].iterrows():
       al = row["Alumno"]
-      suma_i = sum([
-          stored_i.get(al, {}).get(c["criteri"], 0) * (c["pes"] / pesos_i)
-          for c in RUBRICA
-          if c["tipus"] == "individual"
-      ])
+      st.markdown(f"#### Alumne/a: {al}")
+      suma_i = 0
+      for c in [x for x in RUBRICA if x["tipus"] == "individual"]:
+        val_i = stored_i.get(al, {}).get(c["criteri"], 7.0)
+        suma_i += val_i * (c["pes"] / pesos_i)
+        st.markdown(f"  - **{c['criteri']}** (Puntuació: **{val_i} / 10**)")
+        st.caption(f"    📝 {obtenir_nivell_text(val_i, c['nivells'])}")
+
       n_fin = (suma_g * pesos_g) + (suma_i * pesos_i)
-      st.markdown(f"- **{al}**: Nota Final = `🎯 {round(n_fin, 2)}`")
-      st.write(
-          f"  *Feedback:* {st.session_state.get(f'feed_{al}', 'Sense comentaris.')}"
+      st.markdown(f"  * **🎯 Nota Final de {al}:** `{round(n_fin, 2)} / 10`")
+      st.info(
+          f"💬 **Feedback:** {st.session_state.get(f'feed_{al}', 'Sense comentaris.')}"
       )
+      st.markdown("---")
 
   # 4. Docent Global
   with tab4:
-    st.header("Resum General de Classe i Llista de PINs")
+    st.header("📊 Resum General de Classe i PINs")
     st.dataframe(df_alumnos, use_container_width=True)
 
-    if st.button("Calcular resum de notes"):
-      res = []
-      notas_grupales = st.session_state.get("notas_grupales", {})
-      stored_i = st.session_state.get("notas_individuales", {})
-      pesos_g = sum([c["pes"] for c in RUBRICA if c["tipus"] == "grupal"])
-      pesos_i = sum([c["pes"] for c in RUBRICA if c["tipus"] == "individual"])
-
-      for idx, row in df_alumnos.iterrows():
-        al = row["Alumno"]
-        gr = row["Grupo"]
-        ng = sum([
-            notas_grupales.get(gr, {}).get(c["criteri"], 0)
-            * (c["pes"] / pesos_g)
-            for c in RUBRICA
-            if c["tipus"] == "grupal"
-        ])
-        ni = sum([
-            stored_i.get(al, {}).get(c["criteri"], 0) * (c["pes"] / pesos_i)
-            for c in RUBRICA
-            if c["tipus"] == "individual"
-        ])
-        nfin = (ng * pesos_g) + (ni * pesos_i)
-        res.append(
-            {"Alumno": al, "Grupo": gr, "Nota Final": round(nfin, 2)}
-        )
-
-      df_res = pd.DataFrame(res)
-      st.dataframe(df_res, use_container_width=True)
-
-  # 5. Portal Alumnes des de vista docent
+  # 5. Portal Alumnes
   with tab5:
-    st.info(
-        "Aquesta és la vista que tindrà l'alumnat en entrar sense la contrasenya"
-        " docent."
-    )
+    st.info("Vista prèvia del portal de l'alumnat.")
 
 else:
-  # --- VISTA EXCLUSIVA PER A L'ALUMNAT (Només el portal amb PIN) ---
+  # --- VISTA EXCLUSIVA PER A L'ALUMNAT ---
   st.title("🔒 Portal de Consulta de Notes")
   st.markdown(
       "Introdueix el teu nom i el teu **PIN de 4 xifres** per veure la teva"
-      " qualificació de forma privada."
+      " qualificació detallada amb els descripdors de la rúbrica."
   )
 
   col1, col2 = st.columns(2)
@@ -394,21 +437,28 @@ else:
       pesos_g = sum([c["pes"] for c in RUBRICA if c["tipus"] == "grupal"])
       pesos_i = sum([c["pes"] for c in RUBRICA if c["tipus"] == "individual"])
 
-      ng = sum([
-          notas_grupales.get(gr_al, {}).get(c["criteri"], 0)
-          * (c["pes"] / pesos_g)
-          for c in RUBRICA
-          if c["tipus"] == "grupal"
-      ])
-      ni = sum([
-          stored_i.get(al_ing, {}).get(c["criteri"], 0) * (c["pes"] / pesos_i)
-          for c in RUBRICA
-          if c["tipus"] == "individual"
-      ])
-      nfin = (ng * pesos_g) + (ni * pesos_i)
-
       st.markdown(f"### Hola, **{al_ing}** (Grup {gr_al})")
-      st.metric(label="🎯 Qualificació Final", value=f"{round(nfin, 2)} / 10")
+
+      # Desglossament Grupal
+      st.markdown("#### 🏛️ Avaluació del Treball en Grup")
+      suma_g = 0
+      for c in [x for x in RUBRICA if x["tipus"] == "grupal"]:
+        val = notas_grupales.get(gr_al, {}).get(c["criteri"], 7.0)
+        suma_g += val * (c["pes"] / pesos_g)
+        st.markdown(f"- **{c['criteri']}**: **{val} / 10**")
+        st.caption(f"  📝 {obtenir_nivell_text(val, c['nivells'])}")
+
+      # Desglossament Individual
+      st.markdown("#### 👤 Avaluació Individual")
+      suma_i = 0
+      for c in [x for x in RUBRICA if x["tipus"] == "individual"]:
+        val_i = stored_i.get(al_ing, {}).get(c["criteri"], 7.0)
+        suma_i += val_i * (c["pes"] / pesos_i)
+        st.markdown(f"- **{c['criteri']}**: **{val_i} / 10**")
+        st.caption(f"  📝 {obtenir_nivell_text(val_i, c['nivells'])}")
+
+      nfin = (suma_g * pesos_g) + (suma_i * pesos_i)
+      st.success(f"### 🎯 Qualificació Final: {round(nfin, 2)} / 10")
 
       feed = st.session_state.get(
           f"feed_{al_ing}", "Sense comentaris addicionals."
